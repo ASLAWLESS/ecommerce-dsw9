@@ -18,6 +18,8 @@ const storeAuthRoutes = require('./routes/storeAuth');
 const { attachLocals } = require('./middleware/authMiddleware');
 
 const userAuthRoutes = require('./routes/userAuth');
+const storeAdminRoutes = require('./routes/storeAdmin');
+const customerRoutes = require('./routes/customer');
 
 
 app.set('view engine', 'ejs');
@@ -43,6 +45,9 @@ app.use(['/store/login', '/store/register',
   (req, res, next) => { res.locals.layout = false; next(); }
 );
 app.use('/store', storeAuthRoutes);
+app.use('/user', userAuthRoutes);
+app.use('/store-admin', storeAdminRoutes);
+app.use('/customer', customerRoutes);
 // Middleware: carrito vacio en sesion si no existe
 app.use((req, res, next) => {
   if (!req.session.cart) {
@@ -51,7 +56,6 @@ app.use((req, res, next) => {
   res.locals.cartItemCount = req.session.cart.totalQty || 0;
   next();
 });
-app.use('/user', userAuthRoutes);
 
 /*app.get('/', (req, res) => {
   res.send(`
