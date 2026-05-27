@@ -17,6 +17,9 @@ const port = process.env.PORT || 3000;
 const storeAuthRoutes = require('./routes/storeAuth');
 const { attachLocals } = require('./middleware/authMiddleware');
 
+const userAuthRoutes = require('./routes/userAuth');
+
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.set('layout', 'layout');        // usa views/layout.ejs como plantilla base
@@ -48,6 +51,7 @@ app.use((req, res, next) => {
   res.locals.cartItemCount = req.session.cart.totalQty || 0;
   next();
 });
+app.use('/user', userAuthRoutes);
 
 /*app.get('/', (req, res) => {
   res.send(`
